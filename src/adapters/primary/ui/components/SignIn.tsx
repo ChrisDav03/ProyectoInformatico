@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, SxProps, ThemeProvider } from "@mui/material/styles";
 import { InputAdornment } from "@mui/material";
 import { Icon } from '@iconify/react';
+import IconButton from '@mui/material/IconButton';
 
 interface CopyrightProps {
   sx?: SxProps;
@@ -71,6 +72,12 @@ export default function SignIn() {
       password: data.get("password"),
     });
   };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -141,13 +148,23 @@ export default function SignIn() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 autoComplete="current-password"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
                       <Icon icon="tabler:lock" /> 
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle-password-visibility"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? <Icon icon="tabler:eye" /> : <Icon icon="tabler:eye-closed" />}
+                      </IconButton>
                     </InputAdornment>
                   ),
                 }}
