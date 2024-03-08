@@ -13,14 +13,17 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, SxProps, ThemeProvider } from "@mui/material/styles";
 import { InputAdornment } from "@mui/material";
-import { Icon } from '@iconify/react';
-import IconButton from '@mui/material/IconButton';
+import { Icon } from "@iconify/react";
+import IconButton from "@mui/material/IconButton";
 
 interface CopyrightProps {
   sx?: SxProps;
 }
 
 const theme = createTheme({
+  typography: {
+    fontFamily: 'Raleway, Arial, sans-serif',
+  },
   palette: {
     primary: { main: "#556cd6" },
     secondary: { main: "#19857b" },
@@ -54,10 +57,7 @@ function Copyright(props: CopyrightProps) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="http://localhost:5173">
-        TaskManager
-      </Link>{" "}
-      {new Date().getFullYear()}
+      <u>TaskManager</u> {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -77,7 +77,7 @@ export default function SignIn() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -89,6 +89,7 @@ export default function SignIn() {
           sm={4}
           md={7}
           sx={{
+            position: "relative",
             backgroundImage:
               "url(https://source.unsplash.com/random?wallpapers)",
             backgroundRepeat: "no-repeat",
@@ -99,25 +100,55 @@ export default function SignIn() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        />
+        >
+          <Box
+            sx={{
+              position: "absolute", 
+              top: '10%', 
+              left: '5%', 
+              padding: "16px", 
+              borderRadius: "4px",
+            }}
+          >
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{
+                color: "White", 
+              }}
+            >
+              Welcome to <br /> 
+              <Typography variant="h4" component="h1" sx={{ color: "white", fontWeight: "bold", textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
+              <i>TaskManager</i>
+              </Typography>
+            </Typography>
+          </Box>
+        </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              backgroundColor: "rgba(255, 255, 255, 0.85)", 
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
               my: 8,
               mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               padding: 4,
-              borderRadius: 2, 
+              borderRadius: 2,
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h3" variant="h5" sx={{ marginTop: 1 }}>
               Sign in
+            </Typography>
+            <Typography
+              component="h3"
+              variant="h5"
+              sx={{ marginBottom: 1, marginTop: 3 }}
+            >
+              Enter your account
             </Typography>
             <Box
               component="form"
@@ -137,7 +168,7 @@ export default function SignIn() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Icon icon="tabler:mail" /> 
+                      <Icon icon="tabler:mail" />
                     </InputAdornment>
                   ),
                 }}
@@ -148,13 +179,13 @@ export default function SignIn() {
                 fullWidth
                 name="password"
                 label="Password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Icon icon="tabler:lock" /> 
+                      <Icon icon="tabler:lock" />
                     </InputAdornment>
                   ),
                   endAdornment: (
@@ -163,7 +194,11 @@ export default function SignIn() {
                         aria-label="toggle-password-visibility"
                         onClick={togglePasswordVisibility}
                       >
-                        {showPassword ? <Icon icon="tabler:eye" /> : <Icon icon="tabler:eye-closed" />}
+                        {showPassword ? (
+                          <Icon icon="tabler:eye" />
+                        ) : (
+                          <Icon icon="tabler:eye-closed" />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),
