@@ -1,3 +1,13 @@
+#Pasos para correr el proyecto
+- Clonarlo
+- Dentro del directorio usar "npm i"
+- Crear un .env dentro del root del proyecto y pegar las variables de entorno
+- Correr el proyecto con "npm run dev"
+
+#.ENV:
+VITE_AUTH0_CLIENT_ID="QGJovR93zR30nYo8sSUIjFWLXprp6lVV"
+VITE_AUTH0_DOMAIN="segurostupapa.us.auth0.com"
+
 #Link del figma
 https://www.figma.com/files/team/1343249467894639814/Task-manager-login?fuid=908023301285755777
 
