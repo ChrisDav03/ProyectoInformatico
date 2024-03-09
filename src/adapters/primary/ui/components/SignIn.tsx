@@ -1,20 +1,13 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, SxProps, ThemeProvider } from "@mui/material/styles";
-import { InputAdornment } from "@mui/material";
-import { Icon } from "@iconify/react";
-import IconButton from "@mui/material/IconButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface CopyrightProps {
   sx?: SxProps;
@@ -22,7 +15,7 @@ interface CopyrightProps {
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Raleway, Arial, sans-serif',
+    fontFamily: "Raleway, Arial, sans-serif",
   },
   palette: {
     primary: { main: "#556cd6" },
@@ -64,20 +57,7 @@ function Copyright(props: CopyrightProps) {
 }
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <ThemeProvider theme={theme}>
@@ -103,10 +83,10 @@ export default function SignIn() {
         >
           <Box
             sx={{
-              position: "absolute", 
-              top: '10%', 
-              left: '5%', 
-              padding: "16px", 
+              position: "absolute",
+              top: "10%",
+              left: "5%",
+              padding: "16px",
               borderRadius: "4px",
             }}
           >
@@ -114,13 +94,21 @@ export default function SignIn() {
               variant="h6"
               component="h2"
               sx={{
-                color: "White", 
+                color: "white",
               }}
             >
-              Welcome to <br /> 
-              <Typography variant="h4" component="h1" sx={{ color: "white", fontWeight: "bold", textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
+              Welcome to <br />
+            </Typography>
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{
+                color: "white",
+                fontWeight: "bold",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+              }}
+            >
               <i>TaskManager</i>
-              </Typography>
             </Typography>
           </Box>
         </Grid>
@@ -140,96 +128,18 @@ export default function SignIn() {
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h3" variant="h5" sx={{ marginTop: 1 }}>
+            <Typography component="h1" variant="h2" sx={{ marginTop: 5, marginBottom: 10 }}>
+              Welcome back!
+            </Typography>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => loginWithRedirect()}
+              sx={{ mt: 3, mb: 2 }}
+            >
               Sign in
-            </Typography>
-            <Typography
-              component="h3"
-              variant="h5"
-              sx={{ marginBottom: 1, marginTop: 3 }}
-            >
-              Enter your account
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Icon icon="tabler:mail" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                autoComplete="current-password"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Icon icon="tabler:lock" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle-password-visibility"
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? (
-                          <Icon icon="tabler:eye" />
-                        ) : (
-                          <Icon icon="tabler:eye-closed" />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
+            </Button>
+            <Copyright sx={{ mt: 5 }} />
           </Box>
         </Grid>
       </Grid>

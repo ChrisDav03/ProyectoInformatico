@@ -1,21 +1,27 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from '../src/adapters/primary/ui/components/App'
-import './index.css'
-import SignIn from './adapters/primary/ui/components/SignIn'
-import SignUp from './adapters/primary/ui/components/SignUp'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
+import App from "./adapters/primary/ui/components/App";
+import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root')!);
+const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
+
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 
 root.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<App />} />
-      </Routes>
-    </Router>
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <Router>
+        <App />
+      </Router>
+    </Auth0Provider>
   </React.StrictMode>
 );
