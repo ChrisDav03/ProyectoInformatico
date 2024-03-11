@@ -15,3 +15,5 @@ VITE_AUTH0_CLIENT_ID="QGJovR93zR30nYo8sSUIjFWLXprp6lVV"
 VITE_AUTH0_DOMAIN="segurostupapa.us.auth0.com"
 
 - Finalmente, correr el proyecto
+
+(Es claro que el .env no debe ir así publicamente pero pues es necesario colocarlo explícito para que te funcione profe 🌇)
