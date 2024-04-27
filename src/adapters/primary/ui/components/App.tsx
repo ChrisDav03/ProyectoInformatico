@@ -5,6 +5,7 @@ import Home from "./Home";
 import Profile from "./Profile";
 import "./App.css";
 
+
 function App() {
   const { isAuthenticated, isLoading } = useAuth0();
 
