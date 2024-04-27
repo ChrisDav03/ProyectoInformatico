@@ -14,7 +14,11 @@ const NoteList: React.FC<NoteListProps> = ({ notes, onDelete }) => {
       {notes.map((note, index) => (
         <Card
           key={index}
-          title={note.title} // Usa el título como encabezado
+          title={
+            <div style={{ textAlign: 'center' }}>
+              {note.title}
+            </div>
+          } 
           actions={[
             <Button
               type="text"
@@ -26,7 +30,7 @@ const NoteList: React.FC<NoteListProps> = ({ notes, onDelete }) => {
             </Button>,
           ]}
         >
-          <p>{note.description}</p> {/* Muestra la descripción dentro de la tarjeta */}
+          <p className='d-flex justify-content-center'>{note.description}</p> {/* Muestra la descripción dentro de la tarjeta */}
         </Card>
       ))}
     </Space>

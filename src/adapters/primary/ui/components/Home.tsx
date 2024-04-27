@@ -82,9 +82,12 @@ function Home() {
       >
         Cerrar sesión
       </button>
-      <div>
+      <div className="d-flex justify-content-center ">
+        <div className="d-flex flex-column">
         <AddNote onAdd={handleAddNote} />
+        
         <NoteList notes={notes} onDelete={handleDeleteNote} />
+        </div>
       </div>
     </div>
   );

@@ -36,36 +36,43 @@ const AddNote: React.FC<AddNoteProps> = ({ onAdd }) => {
   };
 
   return (
-    <Space direction="vertical" size={16}>
-      <Card title="Añadir Nota" style={{ width: 300 }}>
-        <Form
-          form={form}
-          name="add-note"
-          style={{ maxWidth: 600 }}
-          validateMessages={validateMessages}
-          onFinish={handleFormSubmit} // Manejamos el envío del formulario
-        >
-          <Form.Item
-            name={['note', 'title']}
-            label="Título"
-            rules={[{ required: true, message: 'El título es requerido' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name={['note', 'description']}
-            label="Descripción"
-            rules={[{ required: true, message: 'La descripción es requerida' }]}
-          >
-            <Input.TextArea rows={4} />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">Guardar</Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    </Space>
-  );
+    <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        
+      }}>
+        <Space direction="vertical" size={16}>
+          <Card title="Añadir Tarea" style={{ width: 300, textAlign: 'center' }}>
+            <Form
+              form={form}
+              name="add-note"
+              style={{ maxWidth: 600 }}
+              validateMessages={validateMessages}
+              onFinish={handleFormSubmit}
+            >
+              <Form.Item
+                name={['note', 'title']}
+                label="Título"
+                rules={[{ required: true, message: 'El título es requerido' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={['note', 'description']}
+                label="Descripción"
+                rules={[{ required: true, message: 'La descripción es requerida' }]}
+              >
+                <Input.TextArea rows={4} />
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">Guardar</Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </Space>
+      </div>
+    );
+    
 };
 
 export default AddNote;
