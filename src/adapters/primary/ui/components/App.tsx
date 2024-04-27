@@ -4,6 +4,7 @@ import SignIn from "./SignIn";
 import Home from "./Home";
 import Profile from "./Profile";
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const { isAuthenticated, isLoading } = useAuth0();
