@@ -1,65 +1,70 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Space, Card } from 'antd';
+import React from 'react';
+import { Form, Input, Button, Space, Card, message } from 'antd';
+
+// Definir el tipo para el objeto de nota
+interface Note {
+  title: string;
+  description: string;
+}
 
 interface AddNoteProps {
-  onAdd: (note: { title: string; description: string }) => void;
+  onAdd: (note: Note) => void;
 }
 
 const AddNote: React.FC<AddNoteProps> = ({ onAdd }) => {
-  const [form] = Form.useForm(); // Usar el formulario de Ant Design
+  const [form] = Form.useForm();
+
+  // Validaciones para campos requeridos
   const validateMessages = {
     required: '${label} es requerido!',
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleFormSubmit = (values: any) => {
+  const handleFormSubmit = (values: { note: Note }) => {
     const { note } = values;
 
-    // Validación simple para evitar campos vacíos (opcional si usas reglas en Form.Item)
+    // Validación para evitar notas vacías
     if (!note.title.trim() || !note.description.trim()) {
-      console.error("Título y descripción son requeridos");
+      message.error("Título y descripción son requeridos"); // Mostrar mensaje de error
       return;
     }
 
-    // Llamar a la función onAdd para agregar la nota
-    onAdd({ title: note.title, description: note.description });
+    // Agregar la nueva nota usando la función `onAdd`
+    onAdd(note);
 
     // Reiniciar el formulario después de agregar la nota
     form.resetFields();
   };
 
   return (
-    <div>
-      <Space direction="vertical" size={16}>
-        <Card title="Añadir Nota" style={{ width: 300 }}>
-          <Form
-            form={form}
-            name="add-note"
-            style={{ maxWidth: 600 }}
-            validateMessages={validateMessages}
-            onFinish={handleFormSubmit} // Aquí manejamos el envío del formulario
+    <Space direction="vertical" size={16}>
+      <Card title="Añadir Nota" style={{ width: 300 }}>
+        <Form
+          form={form}
+          name="add-note"
+          style={{ maxWidth: 600 }}
+          validateMessages={validateMessages}
+          onFinish={handleFormSubmit} // Manejamos el envío del formulario
+        >
+          <Form.Item
+            name={['note', 'title']}
+            label="Título"
+            rules={[{ required: true, message: 'El título es requerido' }]}
           >
-            <Form.Item
-              name={['note', 'title']}
-              label="Título"
-              rules={[{ required: true, message: 'El título es requerido' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name={['note', 'description']}
-              label="Descripción"
-              rules={[{ required: true, message: 'La descripción es requerida' }]}
-            >
-              <Input.TextArea rows={4} />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">Guardar</Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Space>
-    </div>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['note', 'description']}
+            label="Descripción"
+            rules={[{ required: true, message: 'La descripción es requerida' }]}
+          >
+            <Input.TextArea rows={4} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">Guardar</Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </Space>
   );
 };
 
