@@ -6,8 +6,8 @@ const mockTask: Task = {
   id: 1,
   title: "Test Task",
   description: "Test Description",
-  status: "To Do", // Usar uno de los valores permitidos
-  priority: "baja", // Asegúrate de que esta propiedad también sea válida
+  status: "To Do",
+  priority: "baja",
 };
 
 test("renders TaskCard and edits task", () => {
