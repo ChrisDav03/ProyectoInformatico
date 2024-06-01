@@ -61,8 +61,8 @@ jobs:
       with:
         name: node-app
 
-    - name: List files in downloaded artifact
-      run: ls -la /node-app
+    - name: List files in artifact directory
+      run: ls -la /home/runner/work/ProyectoInformatico/ProyectoInformatico
 
     - name: 'Deploy to Azure WebApp'
       id: deploy-to-webapp
