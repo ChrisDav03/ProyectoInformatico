@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import KanbanColumn from "./KanbanColumn";
 import AddTaskForm from "./AddTaskForm";
 import { message } from "antd";
+import ReportButton from "./ReportButton";
 
 const NOTES_KEY = "notesApp_notes";
 
@@ -11,6 +12,10 @@ interface Task {
   description: string;
   status: "To Do" | "In Progress" | "Done";
   priority: "baja" | "media" | "alta";
+  assignedTo: number;
+  createdAt: string;
+  dueDate: string;
+  category: string;
 }
 
 const KanbanBoard: React.FC = () => {
@@ -27,13 +32,24 @@ const KanbanBoard: React.FC = () => {
     localStorage.setItem(NOTES_KEY, JSON.stringify(tasks));
   }, [tasks]);
 
-  const handleAddTask = (title: string, description: string, priority: "baja" | "media" | "alta") => {
+  const handleAddTask = (
+    title: string,
+    description: string,
+    priority: "baja" | "media" | "alta",
+    assignedTo: number,
+    dueDate: string,
+    category: string
+  ) => {
     const newTask: Task = {
       id: Date.now(),
       title,
       description,
       status: "To Do",
       priority,
+      assignedTo,
+      createdAt: new Date().toLocaleDateString(),
+      dueDate,
+      category,
     };
 
     setTasks([...tasks, newTask]);
@@ -41,7 +57,9 @@ const KanbanBoard: React.FC = () => {
   };
 
   const handleDeleteTask = (id: number) => {
-    const confirm = window.confirm("¿Estás seguro de que quieres eliminar esta tarea?");
+    const confirm = window.confirm(
+      "¿Estás seguro de que quieres eliminar esta tarea?"
+    );
     if (confirm) {
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
@@ -57,7 +75,10 @@ const KanbanBoard: React.FC = () => {
     message.success("Tarea actualizada con éxito");
   };
 
-  const handleMoveTask = (id: number, status: "To Do" | "In Progress" | "Done") => {
+  const handleMoveTask = (
+    id: number,
+    status: "To Do" | "In Progress" | "Done"
+  ) => {
     const newTasks = tasks.map((task) =>
       task.id === id ? { ...task, status } : task
     );
@@ -67,6 +88,7 @@ const KanbanBoard: React.FC = () => {
   return (
     <div className="kanban-board p-4">
       <AddTaskForm onAddTask={handleAddTask} />
+      <ReportButton tasks={tasks} />
       <div className="kanban-columns grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {["To Do", "In Progress", "Done"].map((status) => (
           <KanbanColumn
