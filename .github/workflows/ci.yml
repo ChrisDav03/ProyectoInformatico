@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run build
+      run: npm run build
+
+    - name: Run tests
+      run: npm test
+
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@v1.5
+      with:
+        projectBaseDir: ./
+        args: >
+          -Dsonar.organization=<your_organization_key>
+          -Dsonar.projectKey=<your_project_key>
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
