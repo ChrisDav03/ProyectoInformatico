@@ -1,3 +1,5 @@
+name: Deploy to Azure Web App
+
 on:
   push:
     branches: [ "dev" ]
@@ -28,7 +30,7 @@ jobs:
         npm install
         npm run build
         npm run test
-
+        
     - name: Check if dist directory exists
       run: if [ -d "./dist" ]; then echo "dist exists"; else echo "dist does not exist"; fi
 
