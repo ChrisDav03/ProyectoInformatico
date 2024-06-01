@@ -1,12 +1,13 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import TaskCard from "../adapters/primary/ui/components/TaskCard";
+import { Task } from "../adapters/primary/ui/components/Types.tsx";
 
-const mockTask = {
+const mockTask: Task = {
   id: 1,
   title: "Test Task",
   description: "Test Description",
-  status: "To Do",
-  priority: "baja",
+  status: "To Do", // Usar uno de los valores permitidos
+  priority: "baja", // Asegúrate de que esta propiedad también sea válida
 };
 
 test("renders TaskCard and edits task", () => {
