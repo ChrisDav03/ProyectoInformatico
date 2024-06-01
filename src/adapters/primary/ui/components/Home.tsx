@@ -21,7 +21,10 @@ const Home: React.FC = () => {
         <Navbar />
         <p>
           El usuario no está autenticado. ¿Quieres{" "}
-          <a href="/signin" style={{ color: "red", textDecoration: "underline" }}>
+          <a
+            href="/signin"
+            style={{ color: "red", textDecoration: "underline" }}
+          >
             iniciar sesión
           </a>
           ?

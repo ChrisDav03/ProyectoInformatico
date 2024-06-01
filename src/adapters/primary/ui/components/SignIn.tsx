@@ -128,7 +128,11 @@ export default function SignIn() {
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h2" sx={{ marginTop: 5, marginBottom: 10 }}>
+            <Typography
+              component="h1"
+              variant="h2"
+              sx={{ marginTop: 5, marginBottom: 10 }}
+            >
               Welcome back!
             </Typography>
             <Button

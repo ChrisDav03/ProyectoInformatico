@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { users } from "../../../../mock/mockUsers";
 
 interface Task {
   id: number;
@@ -6,6 +7,10 @@ interface Task {
   description: string;
   status: "To Do" | "In Progress" | "Done";
   priority: "baja" | "media" | "alta";
+  assignedTo: number;
+  createdAt: string;
+  dueDate: string;
+  category: string;
 }
 
 interface TaskCardProps {
@@ -15,14 +20,30 @@ interface TaskCardProps {
   onMoveTask: (id: number, status: "To Do" | "In Progress" | "Done") => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onDeleteTask, onUpdateTask, onMoveTask }) => {
+const TaskCard: React.FC<TaskCardProps> = ({
+  task,
+  onDeleteTask,
+  onUpdateTask,
+  onMoveTask,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [priority, setPriority] = useState(task.priority);
+  const [assignedTo, setAssignedTo] = useState(task.assignedTo);
+  const [dueDate, setDueDate] = useState(task.dueDate);
+  const [category, setCategory] = useState(task.category);
 
   const handleSave = () => {
-    onUpdateTask({ ...task, title, description, priority });
+    onUpdateTask({
+      ...task,
+      title,
+      description,
+      priority,
+      assignedTo,
+      dueDate,
+      category,
+    });
     setIsEditing(false);
   };
 
@@ -52,38 +73,120 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDeleteTask, onUpdateTask, o
           <label className="block text-sm font-bold mb-2">Prioridad</label>
           <select
             value={priority}
-            onChange={(e) => setPriority(e.target.value as "baja" | "media" | "alta")}
+            onChange={(e) =>
+              setPriority(e.target.value as "baja" | "media" | "alta")
+            }
             className="border p-2 rounded w-full mb-4"
           >
-            <option value="baja" className="text-green-500">Baja</option>
-            <option value="media" className="text-yellow-500">Media</option>
-            <option value="alta" className="text-red-500">Alta</option>
+            <option value="baja" className="text-green-500">
+              Baja
+            </option>
+            <option value="media" className="text-yellow-500">
+              Media
+            </option>
+            <option value="alta" className="text-red-500">
+              Alta
+            </option>
           </select>
-          <button onClick={handleSave} className="bg-blue-500 text-white p-2 rounded">Guardar</button>
+          <label className="block text-sm font-bold mb-2">Asignado a</label>
+          <select
+            value={assignedTo}
+            onChange={(e) => setAssignedTo(Number(e.target.value))}
+            className="border p-2 rounded w-full mb-4"
+          >
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+          <label className="block text-sm font-bold mb-2">
+            Fecha de Vencimiento
+          </label>
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="border p-2 rounded w-full mb-4"
+          />
+          <label className="block text-sm font-bold mb-2">Categoría</label>
+          <input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border p-2 rounded w-full mb-4"
+          />
+          <button
+            onClick={handleSave}
+            className="bg-blue-500 text-white p-2 rounded"
+          >
+            Guardar
+          </button>
         </div>
       ) : (
         <div>
           <h3 className="font-bold text-lg mb-2">{task.title}</h3>
           <p className="text-sm mb-2">{task.description}</p>
-          <p className={`font-bold mb-4 ${priorityColor}`}>Prioridad: {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</p>
+          <p className={`font-bold mb-2 ${priorityColor}`}>
+            Prioridad:{" "}
+            {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+          </p>
+          <p className="text-sm mb-2">
+            <b>Asignado a:</b>{" "}
+            {users.find((user) => user.id === task.assignedTo)?.name}
+          </p>
+          <p className="text-sm mb-2">
+            <b>Fecha de creación:</b> {task.createdAt}
+          </p>
+          <p className="text-sm mb-2">
+            <b>Fecha de vencimiento:</b> {task.dueDate}
+          </p>
+          <p className="text-sm mb-4">
+            <b>Categoría:</b> {task.category}
+          </p>
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Opciones</h4>
             <div className="flex gap-2 items-center">
-              <button onClick={() => setIsEditing(true)} className="bg-blue-500 text-white p-2 rounded">Editar</button>
-              <button onClick={() => onDeleteTask(task.id)} className="bg-red-500 text-white p-2 rounded">Eliminar</button>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="bg-blue-500 text-white p-2 rounded"
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => onDeleteTask(task.id)}
+                className="bg-red-500 text-white p-2 rounded"
+              >
+                Eliminar
+              </button>
             </div>
           </div>
           <div>
             <h4 className="font-semibold mb-2">Mover a</h4>
             <div className="flex gap-2 items-center">
               {task.status !== "To Do" && (
-                <button onClick={() => onMoveTask(task.id, "To Do")} className="bg-blue-500 text-white p-2 rounded">To Do</button>
+                <button
+                  onClick={() => onMoveTask(task.id, "To Do")}
+                  className="bg-blue-500 text-white p-2 rounded"
+                >
+                  To Do
+                </button>
               )}
               {task.status !== "In Progress" && (
-                <button onClick={() => onMoveTask(task.id, "In Progress")} className="bg-yellow-500 text-white p-2 rounded">In Progress</button>
+                <button
+                  onClick={() => onMoveTask(task.id, "In Progress")}
+                  className="bg-yellow-500 text-white p-2 rounded"
+                >
+                  In Progress
+                </button>
               )}
               {task.status !== "Done" && (
-                <button onClick={() => onMoveTask(task.id, "Done")} className="bg-green-500 text-white p-2 rounded">Done</button>
+                <button
+                  onClick={() => onMoveTask(task.id, "Done")}
+                  className="bg-green-500 text-white p-2 rounded"
+                >
+                  Done
+                </button>
               )}
             </div>
           </div>
